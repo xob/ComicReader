@@ -77,34 +77,19 @@ public class PennyArcade extends DailyComic {
 		String final_date = null;
 		String curr_date = null;
 		while((str = reader.readLine()) != null) {
-			// one such server
-			int index1 = str.indexOf("http://art.penny-arcade.com/photos");
-			int index3 = str.indexOf("http://penny-arcade.smugmug.com/photos");
-			if (index1 != -1 || index3 != -1) {
+			int index1 = str.indexOf("id=\"comicFrame\"");
+			if (index1 != -1) {
 				final_str = str;
+			}
+			int index3 = str.indexOf("attributes[comic_title]");
+			if (index3 != -1) {
 				final_date = str;
 			}
-			else {
-				// second such server
-				index1 = str.indexOf("http://www.penny-arcade.com/images");
-				if (index1 != -1) {
-					final_str = str;
-					final_date = str;
-				}
-			}
-			int index2 = str.indexOf("btnNews btn");
-			if (index2 != -1) {
-				curr_date = str;
-			}
-			
 		}
 		final_str = final_str.replaceAll(".*src=\"","");
 		final_str = final_str.replaceAll("\".*","");
-		final_date = final_date.replaceAll(".*alt=\"","");
+		final_date = final_date.replaceAll(".*value=\"","");
 		final_date = final_date.replaceAll("\".*","");
-		curr_date = curr_date.replaceAll(".*.com", "");
-		curr_date = curr_date.replaceAll("\".*", "");
-		curr_date = "http://penny-arcade.com/comic"+curr_date;		
 		final_title = "Penny Arcade" + ": " + final_date;
 		strip.setTitle(final_title); 
 		strip.setText("-NA-");

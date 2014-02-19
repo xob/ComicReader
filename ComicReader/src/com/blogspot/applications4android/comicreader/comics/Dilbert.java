@@ -46,7 +46,7 @@ public class Dilbert extends DailyComic {
 		String final_title = null;
 		String final_date = null;
 		while((str = reader.readLine()) != null) {
-			int index1 = str.indexOf("border=\"0\" alt=\"Dilbert.com\"");
+			int index1 = str.indexOf("strip.zoom");
 			if (index1 != -1) {
 				final_str = str;
 			}
@@ -56,8 +56,9 @@ public class Dilbert extends DailyComic {
 			}
 		}
 		final_str = final_str.replaceAll(".*src=\"","");
-		final_str = final_str.replaceAll("border.*","");
+		final_str = final_str.replaceAll("title=.*","");
 		final_str = final_str.substring(0,final_str.length()-2);
+		final_str = "http://dilbert.com" + final_str;
 		final_date = final_date.replaceAll(".*STR_DateStrip\">","");
 		final_date = final_date.replaceAll("</div>","");
 		final_title = "Dilbert" + ": " + final_date; 
