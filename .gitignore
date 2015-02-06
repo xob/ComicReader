@@ -5,3 +5,6 @@
 bin/
 gen/
 target/
+*.prefs
+.idea/
+*.iml
