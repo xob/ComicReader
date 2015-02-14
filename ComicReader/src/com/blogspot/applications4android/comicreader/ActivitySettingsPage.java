@@ -4,8 +4,8 @@ import java.util.Calendar;
 
 
 import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
+// import android.app.AlarmManager;
+// import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -50,7 +50,7 @@ public class ActivitySettingsPage extends PreferenceActivity {
     	Context ctx = act.getApplicationContext();
     	SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(ctx);
     	SharedPreferences.Editor e = sp.edit();
-    	e.putBoolean("backgroundCacheEnabledPref", true);
+    	e.putBoolean("backgroundCacheEnabledPref", false);
     	e.putString("backgroundCacheFreqPref", "4");
     	e.putString("numStripsCachePref", "3");
     	e.commit();
@@ -64,10 +64,10 @@ public class ActivitySettingsPage extends PreferenceActivity {
      */
     public static void launchRepeatedCaching(Context ctx, boolean force) {
     	Intent i = new Intent(ctx, BackgroundCacheReciever.class);
-    	PendingIntent pi = PendingIntent.getBroadcast(ctx, 0, i, 0);
-    	AlarmManager mgr = (AlarmManager) ctx.getSystemService(ALARM_SERVICE);
+    	// PendingIntent pi = PendingIntent.getBroadcast(ctx, 0, i, 0);
+     	// AlarmManager mgr = (AlarmManager) ctx.getSystemService(ALARM_SERVICE);
     	Log.d(TAG, "Cancelling the previous alarm...");
-    	mgr.cancel(pi);
+    	// mgr.cancel(pi);
     	SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(ctx);
     	if(!sp.getBoolean("backgroundCacheEnabledPref", false) && !force) {
     		Log.d(TAG, "Caching disabled. Returning back...");
@@ -92,7 +92,7 @@ public class ActivitySettingsPage extends PreferenceActivity {
     	next += sixAm;
     	long diff = next - now;
     	Log.d(TAG, "Alarm for interval="+interval+" firstTime="+next+" now="+now+" diff="+diff);
-    	mgr.setRepeating(AlarmManager.RTC_WAKEUP, next, interval, pi);
+    	// mgr.setRepeating(AlarmManager.RTC_WAKEUP, next, interval, pi);
     	return;
     }
 

@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.wifi.WifiManager;
 import android.net.wifi.WifiManager.WifiLock;
-import android.os.PowerManager;
+// import android.os.PowerManager;
 import android.util.Log;
 
 
@@ -17,7 +17,7 @@ public abstract class FullyAwakeIntentService extends IntentService {
 	/** for logging purposes only */
 	private static final String TAG = "FullyAwakeIntentService";
 	/** wake lock */
-	private static PowerManager.WakeLock mWakelock = null;
+	// private static PowerManager.WakeLock mWakelock = null;
 	/** wifi wake lock */
 	private static WifiManager.WifiLock mWifiLock = null;
 
@@ -36,7 +36,6 @@ public abstract class FullyAwakeIntentService extends IntentService {
 	 */
 	public static void acquireStaticLock(Context context) {
 		Log.d(TAG, "Acquiring all the wake locks...");
-		getPowerLock(context).acquire();
 		getWifiLock(context).acquire();
 	}
 
@@ -47,7 +46,6 @@ public abstract class FullyAwakeIntentService extends IntentService {
 		}
 		finally {
 			Log.d(TAG, "Releasing all the wake locks...");
-			getPowerLock(this).release();
 			getWifiLock(this).release();
 		}
 	}
@@ -63,16 +61,16 @@ public abstract class FullyAwakeIntentService extends IntentService {
 	 * @param context context
 	 * @return lock object
 	 */
-	synchronized private static PowerManager.WakeLock getPowerLock(Context context) {
-		if (mWakelock == null) {
-			PowerManager mgr = (PowerManager)context.getSystemService(Context.POWER_SERVICE);
-			// This is the only way I was able to get the phone to be awake for the background-sync to happen!
-			int flags = PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP;
-			mWakelock = mgr.newWakeLock(flags, TAG);
-			mWakelock.setReferenceCounted(true);
-		}
-		return mWakelock;
-	}
+	// synchronized private static PowerManager.WakeLock getPowerLock(Context context) {
+	// 	if (mWakelock == null) {
+	// 		PowerManager mgr = (PowerManager)context.getSystemService(Context.POWER_SERVICE);
+	// 		// This is the only way I was able to get the phone to be awake for the background-sync to happen!
+	// 		int flags = PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP;
+	// 		mWakelock = mgr.newWakeLock(flags, TAG);
+	// 		mWakelock.setReferenceCounted(true);
+	// 	}
+	// 	return mWakelock;
+	// }
 
 	/**
 	 * Acquires the lock object

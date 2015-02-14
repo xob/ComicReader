@@ -10,9 +10,9 @@ import com.blogspot.applications4android.comicreader.core.FullyAwakeIntentServic
 import com.blogspot.applications4android.comicreader.core.Strip;
 
 import android.app.AlertDialog;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
+// import android.app.Notification;
+// import android.app.NotificationManager;
+// import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -57,7 +57,7 @@ public class BackgroundCacheIntentService extends FullyAwakeIntentService {
 	/** context */
 	private Context mCtx;
 	/** notificatio */
-	private Notification mNotify;
+	// private Notification mNotify;
 	/** class list */
 	private ComicClassList mList;
 	/** total number of strips to be downloaded */
@@ -65,7 +65,7 @@ public class BackgroundCacheIntentService extends FullyAwakeIntentService {
 	/** number of strips checked so far */
 	private int mChecked;
 	/** notification manager */
-	private NotificationManager mMgr;
+	// private NotificationManager mMgr;
 	/** progress message */
 	private String mStr;
 
@@ -110,11 +110,11 @@ public class BackgroundCacheIntentService extends FullyAwakeIntentService {
 		}
 		_waitForConnectivity();
 		if (_isOnWifi(mCtx)) {
-			_cacheStrips(sp);
+			// _cacheStrips(sp);
 		}
 		else if (_isOnMobileData(mCtx)) {
 			if (sp.getBoolean("mobileDataCacheEnabledPref", false)) {
-				_cacheStrips(sp);
+				// _cacheStrips(sp);
 			}
 			else {
 				Log.d(TAG, "You're on mobile-data, but caching is disabled on this network. So, returning back...");
@@ -142,7 +142,7 @@ public class BackgroundCacheIntentService extends FullyAwakeIntentService {
 		alertbox.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface arg0, int arg1) {
 				stopSelf();
-				mMgr.cancel(PROGRESS_NOTIFY_ID);
+				// mMgr.cancel(PROGRESS_NOTIFY_ID);
 			}
 		});
 	}
@@ -152,76 +152,76 @@ public class BackgroundCacheIntentService extends FullyAwakeIntentService {
 	 * @param sp shared preferences
 	 */
 	private void _cacheStrips(SharedPreferences sp) {
-		mSortType = Integer.parseInt(sp.getString("mySortPref", Integer.toString(ComicClassList.SORT_ALPHABETICAL)));
-		mNumStrips = Integer.parseInt(sp.getString("numStripsCachePref", "5"));
-		mSyncType = Integer.parseInt(sp.getString("syncTypePref", Integer.toString(SYNC_FROM_LATEST)));
-		Log.d(TAG, "Setting up the progress bar for notifying sync updates...");
-		try {
-			mList = new ComicClassList(mCtx.getAssets());
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			return;
-		}
-		mMgr = (NotificationManager) mCtx.getSystemService(Context.NOTIFICATION_SERVICE);
-		mTotal = mList.numSelected() * mNumStrips;
-		if (mSyncType == SYNC_BOTH) {
-			mTotal *= 2;
-		}
-		mChecked = 0;
-		mStr = mCtx.getResources().getString(R.string.bg_cache_progress_msg);
-		if (sp.getBoolean("notificationPref", true)) {
-			mNotify = new Notification(R.drawable.icon, "ComicReader", System.currentTimeMillis());
-			Intent in = new Intent(mCtx, ActivityComicReader.class);
-			mNotify.contentIntent = PendingIntent.getActivity(mCtx, 0, in, 0);
-			mNotify.contentView = new RemoteViews(mCtx.getPackageName(), R.layout.bg_cache_progress);
-			mNotify.flags = Notification.FLAG_ONGOING_EVENT;
-			_updateProgress();
-		}
-		try {
-			mNumDnlds = 0;
-			mList.sortClasses(mSortType);
-			int num = mList.length();
-			for (int i = 0; i < num; ++i) {
-				ComicClass clz = mList.getComicClassFromIndex(i);
-				if (!clz.mSel) {
-					continue;
-				}
-				Log.d(TAG, "Working on comic = " + clz.mName);
-				Comic com = mList.getComicFromIndex(i);
-				com.setComicName(clz.mName);
-				com.readProperties();
-				com.setLaunchType(Comic.TYPE_CACHING);
-				boolean status = _syncAcomic(com, mNumStrips, mSyncType);
-				com.writeProperties();
-				Log.d(TAG, "Finished working on comic = " + clz.mName + " status=" + status);
-				Log.d(TAG, "Number of downloads so far=" + mNumDnlds);
-			}
-		}
-		catch (Exception e) {
-			mMgr.cancel(PROGRESS_NOTIFY_ID);
-			e.printStackTrace();
-		}
-		mMgr.cancel(PROGRESS_NOTIFY_ID);
-		if (mNumDnlds <= 0) {
-			Log.d(TAG, "No new strips to be read. So, not setting up a notification...");
-			_commitLastSyncTime();
-			return;
-		}
-		Intent i = new Intent(mCtx, ActivityComicReader.class);
-		i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		PendingIntent pi = PendingIntent.getActivity(mCtx, 0, i, 0);
-		// TODO: location of notifies.
+		// mSortType = Integer.parseInt(sp.getString("mySortPref", Integer.toString(ComicClassList.SORT_ALPHABETICAL)));
+		// mNumStrips = Integer.parseInt(sp.getString("numStripsCachePref", "5"));
+		// mSyncType = Integer.parseInt(sp.getString("syncTypePref", Integer.toString(SYNC_FROM_LATEST)));
+		// Log.d(TAG, "Setting up the progress bar for notifying sync updates...");
+		// try {
+		// 	mList = new ComicClassList(mCtx.getAssets());
+		// }
+		// catch (Exception e) {
+		// 	e.printStackTrace();
+		// 	return;
+		// }
+		// // mMgr = (NotificationManager) mCtx.getSystemService(Context.NOTIFICATION_SERVICE);
+		// mTotal = mList.numSelected() * mNumStrips;
+		// if (mSyncType == SYNC_BOTH) {
+		// 	mTotal *= 2;
+		// }
+		// mChecked = 0;
+		// mStr = mCtx.getResources().getString(R.string.bg_cache_progress_msg);
+		// if (sp.getBoolean("notificationPref", true)) {
+		// 	mNotify = new Notification(R.drawable.icon, "ComicReader", System.currentTimeMillis());
+		// 	Intent in = new Intent(mCtx, ActivityComicReader.class);
+		// 	mNotify.contentIntent = PendingIntent.getActivity(mCtx, 0, in, 0);
+		// 	mNotify.contentView = new RemoteViews(mCtx.getPackageName(), R.layout.bg_cache_progress);
+		// 	mNotify.flags = Notification.FLAG_ONGOING_EVENT;
+		// 	_updateProgress();
+		// }
+		// try {
+		// 	mNumDnlds = 0;
+		// 	mList.sortClasses(mSortType);
+		// 	int num = mList.length();
+		// 	for (int i = 0; i < num; ++i) {
+		// 		ComicClass clz = mList.getComicClassFromIndex(i);
+		// 		if (!clz.mSel) {
+		// 			continue;
+		// 		}
+		// 		Log.d(TAG, "Working on comic = " + clz.mName);
+		// 		Comic com = mList.getComicFromIndex(i);
+		// 		com.setComicName(clz.mName);
+		// 		com.readProperties();
+		// 		com.setLaunchType(Comic.TYPE_CACHING);
+		// 		boolean status = _syncAcomic(com, mNumStrips, mSyncType);
+		// 		com.writeProperties();
+		// 		Log.d(TAG, "Finished working on comic = " + clz.mName + " status=" + status);
+		// 		Log.d(TAG, "Number of downloads so far=" + mNumDnlds);
+		// 	}
+		// }
+		// catch (Exception e) {
+		// 	// mMgr.cancel(PROGRESS_NOTIFY_ID);
+		// 	e.printStackTrace();
+		// }
+		// // mMgr.cancel(PROGRESS_NOTIFY_ID);
+		// if (mNumDnlds <= 0) {
+		// 	Log.d(TAG, "No new strips to be read. So, not setting up a notification...");
+		// 	_commitLastSyncTime();
+		// 	return;
+		// }
+		// Intent i = new Intent(mCtx, ActivityComicReader.class);
+		// i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		// PendingIntent pi = PendingIntent.getActivity(mCtx, 0, i, 0);
+		// // TODO: location of notifies.
 
-		if (sp.getBoolean("notificationPref", true)) {
-			mNotify = new Notification(R.drawable.icon, "ComicReader", System.currentTimeMillis());
-			mNotify.flags = Notification.FLAG_AUTO_CANCEL | Notification.FLAG_SHOW_LIGHTS;
-			mNotify.setLatestEventInfo(mCtx, "Comic Reader", "Total of " + mNumDnlds + " newly downloaded strips", pi);
-			Log.d(TAG, "Notifying the manager of this new notification...");
-			mMgr.notify(NOTIFY_ID, mNotify);
-		}
+		// if (sp.getBoolean("notificationPref", true)) {
+		// 	mNotify = new Notification(R.drawable.icon, "ComicReader", System.currentTimeMillis());
+		// 	mNotify.flags = Notification.FLAG_AUTO_CANCEL | Notification.FLAG_SHOW_LIGHTS;
+		// 	mNotify.setLatestEventInfo(mCtx, "Comic Reader", "Total of " + mNumDnlds + " newly downloaded strips", pi);
+		// 	Log.d(TAG, "Notifying the manager of this new notification...");
+		// 	// mMgr.notify(NOTIFY_ID, mNotify);
+		// }
 
-		_commitLastSyncTime();
+		// _commitLastSyncTime();
 	}
 
 	/**
@@ -266,12 +266,12 @@ public class BackgroundCacheIntentService extends FullyAwakeIntentService {
 	 * Updates the view for progress bar
 	 */
 	private void _updateProgress() {
-		++mChecked;
-		RemoteViews view = mNotify.contentView;
-		view.setProgressBar(R.id.bg_cache_progress_bar, mTotal, mChecked, false);
-		String s = mStr + " (" + mChecked + " of " + mTotal + ")";
-		view.setTextViewText(R.id.bg_cache_text, s);
-		mMgr.notify(PROGRESS_NOTIFY_ID, mNotify);
+		// ++mChecked;
+		// RemoteViews view = mNotify.contentView;
+		// view.setProgressBar(R.id.bg_cache_progress_bar, mTotal, mChecked, false);
+		// String s = mStr + " (" + mChecked + " of " + mTotal + ")";
+		// view.setTextViewText(R.id.bg_cache_text, s);
+		// mMgr.notify(PROGRESS_NOTIFY_ID, mNotify);
 	}
 
 	/**
@@ -354,7 +354,7 @@ public class BackgroundCacheIntentService extends FullyAwakeIntentService {
 			}
 			SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mCtx);
 			if (sp.getBoolean("notificationPref", true)) {
-				_updateProgress();
+				// _updateProgress();
 			}
 			return true;
 		} catch (Exception e) {

@@ -6,7 +6,7 @@
 		android:key="backgroundCacheEnabledPref"
         android:title="Enable Caching"
         android:summary="Enable caching in background for offline access"
-        android:defaultValue="true" />
+        android:defaultValue="false" />
     <ListPreference
 		android:title="Cache Frequency"
 		android:summary="Number of times to sync in a day"
@@ -52,7 +52,7 @@
 		android:defaultValue="1"
 		android:entries="@array/sc_button"
 		android:entryValues="@array/sc_button_values"
-		android:dependency="backgroundCacheEnabledPref" />		
+		android:dependency="backgroundCacheEnabledPref" />
 	<CheckBoxPreference
 		android:key="notificationPref"
         android:title="Display Notifications"
